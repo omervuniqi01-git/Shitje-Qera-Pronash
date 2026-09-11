@@ -1,0 +1,2 @@
+# Shitje-Qera-Pronash
+Aplikacion
