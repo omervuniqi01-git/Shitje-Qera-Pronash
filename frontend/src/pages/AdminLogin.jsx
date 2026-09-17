@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../api";
+import { login } from "../store";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -8,15 +8,13 @@ export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const [gabim, setGabim] = useState("");
 
-  const dergo = async (e) => {
+  const dergo = (e) => {
     e.preventDefault();
     setGabim("");
-    try {
-      const { data } = await login({ email, password });
-      localStorage.setItem("token", data.token);
+    if (login(email, password)) {
       navigate("/admin");
-    } catch (error) {
-      setGabim(error.response?.data?.mesazhi || "Gabim ne login");
+    } else {
+      setGabim("Email ose fjalekalim i gabuar");
     }
   };
 

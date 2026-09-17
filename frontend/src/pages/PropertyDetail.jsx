@@ -5,7 +5,7 @@ import L from "leaflet";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
-import { merrNjeProne, BASE_URL } from "../api";
+import { merrNjeProne } from "../store";
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x,
@@ -17,22 +17,11 @@ export default function PropertyDetail() {
   const { id } = useParams();
   const [prona, setProna] = useState(null);
   const [fotoAktive, setFotoAktive] = useState(0);
-  const [duke, setDuke] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await merrNjeProne(id);
-        setProna(data);
-      } catch (error) {
-        setProna(null);
-      } finally {
-        setDuke(false);
-      }
-    })();
+    setProna(merrNjeProne(id) || null);
   }, [id]);
 
-  if (duke) return <p>Duke ngarkuar...</p>;
   if (!prona) return <p>Prona nuk u gjet. <Link to="/">Kthehu</Link></p>;
 
   const fotot = prona.fotot || [];
@@ -47,13 +36,13 @@ export default function PropertyDetail() {
 
       {fotot.length > 0 && (
         <div className="gallery">
-          <img src={`${BASE_URL}${fotot[fotoAktive]}`} alt={prona.titulli} className="main-img" />
+          <img src={fotot[fotoAktive]} alt={prona.titulli} className="main-img" />
           {fotot.length > 1 && (
             <div className="thumbs">
               {fotot.map((f, i) => (
                 <img
                   key={i}
-                  src={`${BASE_URL}${f}`}
+                  src={f}
                   alt=""
                   className={i === fotoAktive ? "active" : ""}
                   onClick={() => setFotoAktive(i)}

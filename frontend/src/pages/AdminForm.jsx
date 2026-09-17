@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { merrNjeProne, krijoProne, perditesoProne, BASE_URL } from "../api";
+import { merrNjeProne, krijoProne, perditesoProne, fotoNeBase64 } from "../store";
 
 const fillestar = {
   titulli: "",
@@ -16,63 +16,38 @@ const fillestar = {
   whatsapp: "",
   latitude: "",
   longitude: "",
+  fotot: [],
 };
 
 export default function AdminForm() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [forma, setForma] = useState(fillestar);
-  const [fotoTeReja, setFotoTeReja] = useState([]);
-  const [fototEkzistuese, setFototEkzistuese] = useState([]);
-  const [gabim, setGabim] = useState("");
 
   useEffect(() => {
     if (!id) return;
-    (async () => {
-      const { data } = await merrNjeProne(id);
-      const pastruar = {};
-      Object.keys(fillestar).forEach((k) => {
-        pastruar[k] = data[k] != null ? data[k] : "";
-      });
-      setForma(pastruar);
-      setFototEkzistuese(data.fotot || []);
-    })();
+    const p = merrNjeProne(id);
+    if (p) setForma({ ...fillestar, ...p });
   }, [id]);
 
   const ndrysho = (e) => {
     setForma({ ...forma, [e.target.name]: e.target.value });
   };
 
-  const heqFoto = (foto) => {
-    setFototEkzistuese(fototEkzistuese.filter((f) => f !== foto));
-  };
-
-  const dergo = async (e) => {
+  const dergo = (e) => {
     e.preventDefault();
-    setGabim("");
-    try {
-      const fd = new FormData();
-      Object.keys(forma).forEach((k) => {
-        if (forma[k] !== "") fd.append(k, forma[k]);
-      });
-      fotoTeReja.forEach((f) => fd.append("fotot", f));
-      if (id) {
-        fototEkzistuese.forEach((f) => fd.append("fototEkzistuese", f));
-        await perditesoProne(id, fd);
-      } else {
-        await krijoProne(fd);
-      }
-      navigate("/admin");
-    } catch (error) {
-      setGabim(error.response?.data?.mesazhi || "Gabim gjate ruajtjes");
-    }
+  
+    // 1. Ktheji vlerat numerike (cmimi, siperfaqja, dhoma, banjo, latitude, longitude) ne Number
+    // 2. Perdor fotoNeBase64(file) per t'i kthyer fotot e ngarkuara ne string dhe ruaji te forma.fotot
+    // 3. Nese ka id -> perditesoProne(id, forma), perndryshe krijoProne(forma)
+    // 4. Pas ruajtjes: navigate("/admin")
   };
 
   return (
     <div className="form-wrap">
       <h1>{id ? "Edito pronen" : "Shto prone te re"}</h1>
+      <p className="error">Kjo faqe eshte per t'u perfunduar nga nxenesi (ruajtja e formes dhe upload i fotove).</p>
       <form onSubmit={dergo} className="form">
-        {gabim && <p className="error">{gabim}</p>}
         <input name="titulli" placeholder="Titulli" value={forma.titulli} onChange={ndrysho} required />
         <textarea name="pershkrimi" placeholder="Pershkrimi" value={forma.pershkrimi} onChange={ndrysho} required />
         <div className="row">
@@ -104,20 +79,9 @@ export default function AdminForm() {
           <input name="longitude" type="number" step="any" placeholder="Longitude (opsionale)" value={forma.longitude} onChange={ndrysho} />
         </div>
 
-        {fototEkzistuese.length > 0 && (
-          <div className="existing-photos">
-            {fototEkzistuese.map((f) => (
-              <div key={f} className="existing-photo">
-                <img src={`${BASE_URL}${f}`} alt="" />
-                <button type="button" onClick={() => heqFoto(f)}>×</button>
-              </div>
-            ))}
-          </div>
-        )}
-
         <label className="file-label">
           Ngarko foto
-          <input type="file" multiple accept="image/*" onChange={(e) => setFotoTeReja([...e.target.files])} />
+          <input type="file" multiple accept="image/*" />
         </label>
 
         <button type="submit" className="btn">{id ? "Ruaj ndryshimet" : "Shto pronen"}</button>

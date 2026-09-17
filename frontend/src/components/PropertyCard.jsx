@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
-import { BASE_URL } from "../api";
 
 export default function PropertyCard({ prona }) {
-  const foto = prona.fotot && prona.fotot.length > 0 ? `${BASE_URL}${prona.fotot[0]}` : null;
+  const foto = prona.fotot && prona.fotot.length > 0 ? prona.fotot[0] : null;
 
   return (
     <Link to={`/prona/${prona._id}`} className="card">
