@@ -4,24 +4,37 @@ import Filters from "../components/Filters";
 import PropertyCard from "../components/PropertyCard";
 
 const fillestar = {
-  kerko: "",
-  lokacioni: "",
-  lloji: "",
-  qellimi: "",
-  cmimiMin: "",
-  cmimiMax: "",
+  kerko: "banes,shtepi,toke ndertimore",
+  lokacioni: "lipjan",
+  lloji: "banese",
+  qellimi: "qera",
+  cmimiMin: "250",
+  cmimiMax: "250",
 };
 
 
+const pronatEFiltruara = (Array.isArray(pronat) ? pronat : []).filter((p) => {
+  if (!p) return false;
+
+  const kerkoMatch = !filtra?.kerko ||
+    (p.titulli && p.titulli.toLowerCase().includes(filtra.kerko.toLowerCase().trim()));
+
+  const lokacioniMatch = !filtra?.lokacioni ||
+    (p.lokacioni && p.lokacioni.toLowerCase().includes(filtra.lokacioni.toLowerCase().trim()));
+
+  const llojiMatch = !filtra?.lloji || p.lloji === filtra.lloji;
+
+  const qellimiMatch = !filtra?.qellimi || p.qellimi === filtra.qellimi;
+
+  const cmimiMinMatch = !filtra?.cmimiMin || Number(p.cmimi) >= Number(filtra.cmimiMin);
+
+  const cmimiMaxMatch = !filtra?.cmimiMax || Number(p.cmimi) <= Number(filtra.cmimiMax);
+
+  return kerkoMatch && lokacioniMatch && llojiMatch && qellimiMatch && cmimiMinMatch && cmimiMaxMatch;
+});
+
 const filtroProna = (lista, filtra) => {
-  // 1. kerko      -> mbaj vetem pronat ku titulli permban tekstin (toLowerCase + includes)
-  // 2. lokacioni  -> mbaj vetem pronat ku lokacioni permban tekstin
-  // 3. lloji      -> perputhje e sakte: p.lloji === filtra.lloji
-  // 4. qellimi    -> perputhje e sakte: p.qellimi === filtra.qellimi
-  // 5. cmimiMin   -> p.cmimi >= Number(filtra.cmimiMin)
-  // 6. cmimiMax   -> p.cmimi <= Number(filtra.cmimiMax)
-  // Kujdes: aplikoji vetem filtrat qe kane vlere (jo bosh).
-  // Tani po kthen gjithcka pa filtruar -> ndryshoje.
+
   return lista;
 };
 

@@ -18,7 +18,7 @@ const propertySchema = new mongoose.Schema(
     lloji: {
       type: String,
       required: true,
-      enum: ["shtepi", "banese", "toke"],
+      enum: ["banesë", "banesë", "banesë"],
     },
     qellimi: {
       type: String,

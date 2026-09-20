@@ -8,12 +8,12 @@ const fillestar = {
   cmimi: "",
   lloji: "banese",
   qellimi: "shitje",
-  lokacioni: "",
+  lokacioni: "lipjan",
   siperfaqja: "",
-  dhoma: "",
-  banjo: "",
-  telefoni: "",
-  whatsapp: "",
+  dhoma: "4",
+  banjo: "2",
+  telefoni: "1",
+  whatsapp: "044359208",
   latitude: "",
   longitude: "",
   fotot: [],
@@ -37,11 +37,47 @@ export default function AdminForm() {
   const dergo = (e) => {
     e.preventDefault();
   
-    // 1. Ktheji vlerat numerike (cmimi, siperfaqja, dhoma, banjo, latitude, longitude) ne Number
-    // 2. Perdor fotoNeBase64(file) per t'i kthyer fotot e ngarkuara ne string dhe ruaji te forma.fotot
-    // 3. Nese ka id -> perditesoProne(id, forma), perndryshe krijoProne(forma)
-    // 4. Pas ruajtjes: navigate("/admin")
+   
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+    
+      const formaEPerpunuar = {
+        ...forma,
+        cmimi: Number(forma.cmimi),
+        siperfaqja: Number(forma.siperfaqja),
+        dhoma: Number(forma.dhoma),
+        banjo: Number(forma.banjo),
+        latitude: Number(forma.latitude),
+        longitude: Number(forma.longitude),
+      };
+
+      
+      if (forma.fotot && forma.fotot.length > 0) {
+        const fototInBase64 = await Promise.all(
+          Array.from(forma.fotot).map((file) => fotoNeBase64(file))
+        );
+        formaEPerpunuar.fotot = fototInBase64;
+      }
+
+
+      if (id) {
+        await perditesoProne(id, formaEPerpunuar);
+      } else {
+        await krijoProne(formaEPerpunuar);
+      }
+
+  
+      navigate("/admin");
+
+    } catch (error) {
+      console.error("Gabim gjatë ruajtjes së pronës:", error);
+    }
+  };
+
 
   return (
     <div className="form-wrap">
@@ -56,9 +92,9 @@ export default function AdminForm() {
         </div>
         <div className="row">
           <select name="lloji" value={forma.lloji} onChange={ndrysho}>
-            <option value="shtepi">Shtepi</option>
+            <option value="shtepi">Banesë</option>
             <option value="banese">Banese</option>
-            <option value="toke">Toke</option>
+            <option value="toke">Banesë</option>
           </select>
           <select name="qellimi" value={forma.qellimi} onChange={ndrysho}>
             <option value="shitje">Shitje</option>
@@ -82,6 +118,9 @@ export default function AdminForm() {
         <label className="file-label">
           Ngarko foto
           <input type="file" multiple accept="image/*" />
+          <img src>https://www.storyriverside.com/wp-content/uploads/2024/06/Story-Riverside-4.jpg</img>
+          <img src>https://www.godwinvaapts.com/wp-content/uploads/2022/06/lewisRender2.jpg</img>
+          <img src>https://images1.apartments.com/i2/A705u3BS5oSipdm-xRlYSTUwpDN7qyCYQcep5FFTHEE/117/elan-loso-charlotte-nc-building-photo.jpg?p=1</img>
         </label>
 
         <button type="submit" className="btn">{id ? "Ruaj ndryshimet" : "Shto pronen"}</button>
