@@ -4,12 +4,12 @@ import Filters from "../components/Filters";
 import PropertyCard from "../components/PropertyCard";
 
 const fillestar = {
-  kerko: "banes,shtepi,toke ndertimore",
-  lokacioni: "lipjan",
-  lloji: "banese",
-  qellimi: "qera",
-  cmimiMin: "250",
-  cmimiMax: "250",
+  kerko: "",
+  lokacioni: "",
+  lloji: "",
+  qellimi: "",
+  cmimiMin: "",
+  cmimiMax: "",
 };
 
 
