@@ -123,11 +123,21 @@ export default function AdminForm() {
 
           {/* Seksioni me foto të besueshme nga Unsplash */}
           <div className="preview-images" style={{ display: "flex", gap: "10px", marginTop: "10px", flexWrap: "wrap" }}>
-            <div className="preview-images" style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-              <img src="https://www.godwinvaapts.com/wp-content/uploads/2022/06/lewisRender2.jpg" alt="Shembull 1" style={{ width: "100px", height: "80px", objectFit: "cover" }} />
-              <img src="https://media.merrjep.com/Image/01f1d807-3089-4066-9349-04bac695ef37/20210930/0/0/toke-ndertimore-ne-rrugen-kryesore-te-fshatit.jpeg?AllowCropping=True" alt="Shembull 2" style={{ width: "100px", height: "80px", objectFit: "cover" }} />
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUIftwyntq2y5S3iQecJ5Uz4rzCIZ4w7mjeqNyvwoxQPfwOZrfDChKKBY&s=10" alt="Shembull 3" style={{ width: "100px", height: "80px", objectFit: "cover" }} />
-            </div>
+            <img
+              src="https://media.merrjep.com/Image/01f1d807-3089-4066-9349-04bac695ef37/20210930/0/0/toke-ndertimore-ne-rrugen-kryesore-te-fshatit.jpeg?AllowCropping=True"
+              alt="Toke Ndertimore"
+              style={{ width: "100px", height: "80px", objectFit: "cover", borderRadius: "6px", border: "1px solid #ddd" }}
+            />
+            <img
+              src="https://patund.com/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1570129477492-45c003edd2be%3Fw%3D400%26q%3D80&w=2048&q=75"
+              alt="Shtëpi me kopsht"
+              style={{ width: "100px", height: "80px", objectFit: "cover", borderRadius: "6px", border: "1px solid #ddd" }}
+            />
+            <img
+              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=500"
+              alt="Brendësia e banesës"
+              style={{ width: "100px", height: "80px", objectFit: "cover", borderRadius: "6px", border: "1px solid #ddd" }}
+            />
           </div>
         </div>
 
