@@ -34,17 +34,15 @@ export default function AdminForm() {
     setForma({ ...forma, [e.target.name]: e.target.value });
   };
 
-  const dergo = (e) => {
-    e.preventDefault();
-  
-   
+  const zgjidhFotot = (e) => {
+    setForma({ ...forma, fotot: Array.from(e.target.files) });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-    
+
       const formaEPerpunuar = {
         ...forma,
         cmimi: Number(forma.cmimi),
@@ -55,10 +53,12 @@ export default function AdminForm() {
         longitude: Number(forma.longitude),
       };
 
-      
+
       if (forma.fotot && forma.fotot.length > 0) {
         const fototInBase64 = await Promise.all(
-          Array.from(forma.fotot).map((file) => fotoNeBase64(file))
+          Array.from(forma.fotot).map((file) =>
+            file instanceof File ? fotoNeBase64(file) : file
+          )
         );
         formaEPerpunuar.fotot = fototInBase64;
       }
@@ -83,7 +83,7 @@ export default function AdminForm() {
     <div className="form-wrap">
       <h1>{id ? "Edito pronen" : "Shto prone te re"}</h1>
       <p className="error">Kjo faqe eshte per t'u perfunduar nga nxenesi (ruajtja e formes dhe upload i fotove).</p>
-      <form onSubmit={dergo} className="form">
+      <form onSubmit={handleSubmit} className="form">
         <input name="titulli" placeholder="Titulli" value={forma.titulli} onChange={ndrysho} required />
         <textarea name="pershkrimi" placeholder="Pershkrimi" value={forma.pershkrimi} onChange={ndrysho} required />
         <div className="row">
@@ -118,7 +118,7 @@ export default function AdminForm() {
         <div className="file-section">
           <label className="file-label" style={{ display: "block", marginBottom: "10px", fontWeight: "bold" }}>
             Ngarko foto
-            <input type="file" multiple accept="image/*" style={{ display: "block", marginTop: "5px" }} />
+            <input type="file" name="fotot" multiple accept="image/*" onChange={zgjidhFotot} style={{ display: "block", marginTop: "5px" }} />
           </label>
 
           {/* Seksioni me foto të besueshme nga Unsplash */}
