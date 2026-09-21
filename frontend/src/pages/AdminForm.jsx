@@ -115,13 +115,21 @@ export default function AdminForm() {
           <input name="longitude" type="number" step="any" placeholder="Longitude (opsionale)" value={forma.longitude} onChange={ndrysho} />
         </div>
 
-        <label className="file-label">
-          Ngarko foto
-          <input type="file" multiple accept="image/*" />
-          <img src>https://www.storyriverside.com/wp-content/uploads/2024/06/Story-Riverside-4.jpg</img>
-          <img src>https://www.godwinvaapts.com/wp-content/uploads/2022/06/lewisRender2.jpg</img>
-          <img src>https://images1.apartments.com/i2/A705u3BS5oSipdm-xRlYSTUwpDN7qyCYQcep5FFTHEE/117/elan-loso-charlotte-nc-building-photo.jpg?p=1</img>
-        </label>
+        <div className="file-section">
+          <label className="file-label" style={{ display: "block", marginBottom: "10px", fontWeight: "bold" }}>
+            Ngarko foto
+            <input type="file" multiple accept="image/*" style={{ display: "block", marginTop: "5px" }} />
+          </label>
+
+          {/* Seksioni me foto të besueshme nga Unsplash */}
+          <div className="preview-images" style={{ display: "flex", gap: "10px", marginTop: "10px", flexWrap: "wrap" }}>
+            <div className="preview-images" style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+              <img src="https://www.godwinvaapts.com/wp-content/uploads/2022/06/lewisRender2.jpg" alt="Shembull 1" style={{ width: "100px", height: "80px", objectFit: "cover" }} />
+              <img src="https://media.merrjep.com/Image/01f1d807-3089-4066-9349-04bac695ef37/20210930/0/0/toke-ndertimore-ne-rrugen-kryesore-te-fshatit.jpeg?AllowCropping=True" alt="Shembull 2" style={{ width: "100px", height: "80px", objectFit: "cover" }} />
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUIftwyntq2y5S3iQecJ5Uz4rzCIZ4w7mjeqNyvwoxQPfwOZrfDChKKBY&s=10" alt="Shembull 3" style={{ width: "100px", height: "80px", objectFit: "cover" }} />
+            </div>
+          </div>
+        </div>
 
         <button type="submit" className="btn">{id ? "Ruaj ndryshimet" : "Shto pronen"}</button>
       </form>

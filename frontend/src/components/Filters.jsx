@@ -18,8 +18,8 @@ export default function Filters({ filtra, ndrysho, pastro }) {
       <select name="lloji" value={filtra.lloji} onChange={ndrysho}>
         <option value="">Te gjitha llojet</option>
         <option value="shtepi">Banesë</option>
-        <option value="banese">Banesë</option>
-        <option value="toke">Banesë</option>
+        <option value="banese">Shtëpi</option>
+        <option value="toke">Toke Ndertimore</option>
       </select>
       <select name="qellimi" value={filtra.qellimi} onChange={ndrysho}>
         <option value="">Shitje & Qera</option>

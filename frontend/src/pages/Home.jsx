@@ -12,30 +12,42 @@ const fillestar = {
   cmimiMax: "",
 };
 
-
-const pronatEFiltruara = (Array.isArray(pronat) ? pronat : []).filter((p) => {
-  if (!p) return false;
-
-  const kerkoMatch = !filtra?.kerko ||
-    (p.titulli && p.titulli.toLowerCase().includes(filtra.kerko.toLowerCase().trim()));
-
-  const lokacioniMatch = !filtra?.lokacioni ||
-    (p.lokacioni && p.lokacioni.toLowerCase().includes(filtra.lokacioni.toLowerCase().trim()));
-
-  const llojiMatch = !filtra?.lloji || p.lloji === filtra.lloji;
-
-  const qellimiMatch = !filtra?.qellimi || p.qellimi === filtra.qellimi;
-
-  const cmimiMinMatch = !filtra?.cmimiMin || Number(p.cmimi) >= Number(filtra.cmimiMin);
-
-  const cmimiMaxMatch = !filtra?.cmimiMax || Number(p.cmimi) <= Number(filtra.cmimiMax);
-
-  return kerkoMatch && lokacioniMatch && llojiMatch && qellimiMatch && cmimiMinMatch && cmimiMaxMatch;
-});
-
+// Funksioni i filtrimit plotësisht i mbrojtur
 const filtroProna = (lista, filtra) => {
+  return (Array.isArray(lista) ? lista : []).filter((p) => {
+    if (!p) return false;
 
-  return lista;
+    const kerkoMatch =
+      !filtra?.kerko ||
+      (p.titulli &&
+        p.titulli.toLowerCase().includes(filtra.kerko.toLowerCase().trim()));
+
+    const lokacioniMatch =
+      !filtra?.lokacioni ||
+      (p.lokacioni &&
+        p.lokacioni
+          .toLowerCase()
+          .includes(filtra.lokacioni.toLowerCase().trim()));
+
+    const llojiMatch = !filtra?.lloji || p.lloji === filtra.lloji;
+
+    const qellimiMatch = !filtra?.qellimi || p.qellimi === filtra.qellimi;
+
+    const cmimiMinMatch =
+      !filtra?.cmimiMin || Number(p.cmimi) >= Number(filtra.cmimiMin);
+
+    const cmimiMaxMatch =
+      !filtra?.cmimiMax || Number(p.cmimi) <= Number(filtra.cmimiMax);
+
+    return (
+      kerkoMatch &&
+      lokacioniMatch &&
+      llojiMatch &&
+      qellimiMatch &&
+      cmimiMinMatch &&
+      cmimiMaxMatch
+    );
+  });
 };
 
 export default function Home() {
@@ -56,14 +68,13 @@ export default function Home() {
   return (
     <div>
       <h1>Prona ne shitje dhe me qera</h1>
-      <p className="error">Filtrat jane per t'u perfunduar nga nxenesi (funksioni filtroProna ne Home.jsx).</p>
       <Filters filtra={filtra} ndrysho={ndrysho} pastro={pastro} />
       {prona.length === 0 ? (
         <p>Nuk u gjet asnje prone.</p>
       ) : (
         <div className="grid">
           {prona.map((p) => (
-            <PropertyCard key={p._id} prona={p} />
+            <PropertyCard key={p._id || p.id} prona={p} />
           ))}
         </div>
       )}
